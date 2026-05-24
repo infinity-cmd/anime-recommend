@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if result.success %}
+<meta charset="UTF-8">
+<div class="row g-4">
+    <div class="col-md-5">
+        <div class="card shadow h-100 border-0">
+            <img src="{{ result.anime.cover }}" class="card-img-top" alt="Cover">
+            <div class="card-body">
+                <h3 class="fw-bold">{{ result.anime.title }}</h3>
+                <p class="badge bg-success mb-2">{{ result.reason }}</p>
+                <p class="card-text text-secondary">{{ result.anime.desc }}</p>
+            </div>
+            <div class="card-footer bg-white border-0 pb-4">
+                <a href="/recommend?user_id={{ current_uid }}" class="btn btn-outline-primary w-100">🔄 换一部</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="card shadow h-100 border-0 bg-white">
+            <div class="card-header bg-light fw-bold">📜 {{ result.user_name }} 的观影记录</div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for item in result.watched_list %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>{{ item }}</span>
+                        <span class="badge tag-badge">已看</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="alert alert-info mt-4 small">
+                    <strong>💡 算法提示：</strong> 系统分析了您看过作品的标签（如热血、国漫等），排除了已看内容，从剩余的高匹配度作品中随机抽取。
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-danger text-center">
+    <h4>⚠️ {{ result.error }}</h4>
+    <a href="/" class="btn btn-link">返回首页</a>
+</div>
+{% endif %}
+<div class="text-center mt-4">
+    <a href="/" class="text-decoration-none">← 返回</a>
+</div>
+{% endblock %}
